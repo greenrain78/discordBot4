@@ -8,8 +8,6 @@
 .idea/
 
 
-
-logs/debug/
 logs/info/
 logs/error/
 logs/message/
