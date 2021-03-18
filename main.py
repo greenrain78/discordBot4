@@ -1,16 +1,30 @@
-# This is a sample Python script.
+"""
+main
+1. 로그를 생성
+2. 봇을 생성하고 실행
+"""
+import json
+from logging import getLogger
+from logging.config import dictConfig
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from DiscordBot4.MainBot import MyBot
+from settings import discord_token
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    # 로그 생성
+    with open('logs/loggers.json') as f:
+        config = json.load(f)
+        dictConfig(config)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    log = getLogger(__name__)
+
+    # logging.info('start programe')
+    # logging.debug('start programe')
+    client = MyBot()
+
+    @client.event
+    async def on_ready():
+        log.info('Logged in as {0} ({0.id})'.format(client.user))
+        print('Logged in as {0} ({0.id})'.format(client.user))
+
+    client.run(discord_token)
