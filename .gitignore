@@ -7,6 +7,10 @@
 /.idea
 .idea/
 
+logs/debug/
+logs/info/
+logs/error/
+logs/message/
 
 __pycache__/
 /__pycache__
