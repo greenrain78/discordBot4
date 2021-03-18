@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "detail_formatter": {
+      "format": "[%(asctime)s] %(levelname)s [%(module)s %(name)s :%(lineno)s] %(message)s",
+      "datefmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "summary_formatter": {
+      "format": "%(asctime)s:%(module)s:%(levelname)s:%(message)s",
+      "datefmt": "%Y-%m-%d %H:%M:%S"
+    }
+  },
+  "handlers": {
+    "file_debug_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "detail_formatter",
+      "filename":  "logs/debug/debug",
+      "when": "midnight",
+      "backupCount": 30,
+      "interval": 1,
+      "encoding": "utf-8"
+    },
+    "file_info_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "summary_formatter",
+      "filename":  "logs/info/info",
+      "when": "midnight",
+      "backupCount": 30,
+      "interval": 1,
+      "encoding": "utf-8"
+    },
+    "file_error_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "ERROR",
+      "formatter": "detail_formatter",
+      "filename":  "logs/error/error",
+      "when": "midnight",
+      "interval": 1,
+      "encoding": "utf-8"
+    },
+    "message_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "summary_formatter",
+      "filename":  "logs/message/message",
+      "when": "midnight",
+      "interval": 1,
+      "encoding": "utf-8"
+    },
+    "console": {
+      "level": "DEBUG",
+      "class": "logging.StreamHandler",
+      "formatter": "detail_formatter"
+    }
+  },
+  "loggers": {
+    "__main__": {
+      "level": "DEBUG",
+      "handlers": ["file_debug_handler", "file_info_handler", "file_error_handler", "console"]
+    },
+    "MainService": {
+      "level": "DEBUG",
+      "handlers": ["file_debug_handler", "file_info_handler", "file_error_handler", "console"]
+    },
+    "SubService": {
+      "level": "DEBUG",
+      "handlers": ["file_debug_handler", "file_info_handler", "file_error_handler", "console"]
+    },
+    "DiscordBot4": {
+      "level": "DEBUG",
+      "handlers": ["file_debug_handler", "file_info_handler", "file_error_handler", "console"]
+    },
+    "DiscordBot4.MainBot": {
+      "level": "DEBUG",
+      "handlers": ["message_file_handler", "console"],
+      "propagate": false
+    }
+  }
+}
