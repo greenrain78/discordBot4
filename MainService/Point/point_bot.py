@@ -59,12 +59,10 @@ class PointBot(commands.Cog):
 
     async def dailyCheck(self, message):
         name = message.author.name
-        text = self.engine.dailyCheck(name)
-        if text is None:
-            return None
         if name in robot_user:
             return None
 
+        text = self.engine.dailyCheck(name)
         msg = await message.channel.send(text)
         await asyncio.sleep(10)
         await msg.delete()  # 메세지 삭제
