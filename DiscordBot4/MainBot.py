@@ -3,6 +3,7 @@ from logging import getLogger
 from discord.ext import commands
 
 from MainService.ERBS.erbs_bot import ERBSBot
+from MainService.Game.game_bot import GameBot
 from MainService.Point.point_bot import PointBot
 from settings import debug, test_server_id
 
@@ -20,7 +21,7 @@ class MyBot(commands.Bot):
         # Main Service
         self.pointBot = PointBot(self)
         self.erbsBot = ERBSBot(self)
-        # self.gameBot = GameBot(self)
+        self.gameBot = GameBot(self)
         # self.stockBot = StockBot(self)
 
         # Sub Service
@@ -30,8 +31,9 @@ class MyBot(commands.Bot):
         # # add bot
         self.add_cog(self.pointBot)
         self.add_cog(self.erbsBot)
+        self.add_cog(self.gameBot)
         # self.add_cog(self.basicBot)
-        # self.add_cog(self.gameBot)
+
         # self.add_cog(self.chatBot)
         # self.add_cog(self.stockBot)
 

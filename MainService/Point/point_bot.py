@@ -2,7 +2,6 @@ import asyncio
 from logging import getLogger
 from discord.ext import commands
 
-from MainService.Point.point_DB import PointDB
 from MainService.Point.point_engine import PointEngine
 from settings import robot_user
 
@@ -63,6 +62,9 @@ class PointBot(commands.Cog):
             return None
 
         text = self.engine.dailyCheck(name)
+        if text is None:    # 중복 채팅 무시
+            return None
+
         msg = await message.channel.send(text)
         await asyncio.sleep(10)
         await msg.delete()  # 메세지 삭제

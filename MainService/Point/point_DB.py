@@ -76,7 +76,7 @@ class PointDB(object):
         log.debug(f"update user({name}): sleep({sleep})")
 
     @staticmethod
-    def update_user_game_count(name: str):
+    def update_game_count_user(name: str):
         sql = f'UPDATE {tableName_user} ' \
               f'SET game_count = game_count + 1 ' \
               f'WHERE name = "{name}"'

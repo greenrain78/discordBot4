@@ -30,7 +30,7 @@ def runSQL(sql):
 
         conn.commit()
         conn.close()
-        log.info("(run): %s", sql)
+        log.debug("(run): %s", sql)
     except Exception as e:
         log.exception("run error: %s", sql)
 
@@ -46,7 +46,7 @@ def getSQL(sql):
         conn.commit()
         conn.close()
 
-        log.info("(get): %s \n \t %s", sql, result)
+        log.debug("(get): %s \n \t %s", sql, result)
         return result
     except Exception as e:
         log.exception("get error: %s", sql)
@@ -62,7 +62,7 @@ def getOneSQL(sql):
 
         conn.commit()
         conn.close()
-        log.info("(get): %s \n \t %s", sql, result)
+        log.debug("(get): %s \n \t %s", sql, result)
         return result
     except Exception as e:
         log.exception("get error: %s", sql)

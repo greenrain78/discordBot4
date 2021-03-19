@@ -65,7 +65,6 @@ class PointEngine:
         return text
 
     def dailyReset(self):
-        log.info("daily user reset: %s", self.sleep_list)
         for user in self.sleep_list:
             self.sleep_list[user] = self.sleep_list[user] + 1
             PointDB.update_sleep_user(user, self.sleep_list[user])

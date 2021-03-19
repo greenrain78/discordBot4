@@ -7,11 +7,11 @@
       "datefmt": "%Y-%m-%d %H:%M:%S"
     },
     "summary_formatter": {
-      "format": "%(asctime)s:%(module)s:%(levelname)s:%(message)s",
+      "format": "%(asctime)s:%(name)s:%(lineno)s (%(levelname)s) %(message)s",
       "datefmt": "%Y-%m-%d %H:%M:%S"
     },
     "console_formatter": {
-      "format": "%(asctime)s:%(module)s:%(levelname)s:%(message)s",
+      "format": "%(asctime)s:%(name)s:%(lineno)s (%(levelname)s) %(message)s",
       "datefmt": "%Y-%m-%d %H:%M:%S"
     }
   },
@@ -95,7 +95,9 @@
     },
     "DiscordBot4.DB": {
       "level": "DEBUG",
-      "handlers": ["DB_file_handler"]
+      "handlers": ["DB_file_handler"],
+      "propagate": false
+
     }
   }
 }
