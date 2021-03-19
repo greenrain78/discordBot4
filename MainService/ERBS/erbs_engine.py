@@ -9,7 +9,6 @@ api_key = erbs_api_key
 version = 'v1'
 
 log = getLogger(__name__)
-print(__name__)
 
 
 class ErbsEngine:
