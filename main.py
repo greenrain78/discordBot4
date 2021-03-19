@@ -18,13 +18,12 @@ if __name__ == '__main__':
 
     log = getLogger(__name__)
 
-    # logging.info('start programe')
-    # logging.debug('start programe')
+    log.info('start programe')
     client = MyBot()
+
 
     @client.event
     async def on_ready():
         log.info('Logged in as {0} ({0.id})'.format(client.user))
-        print('Logged in as {0} ({0.id})'.format(client.user))
 
     client.run(discord_token)

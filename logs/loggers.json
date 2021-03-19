@@ -9,6 +9,10 @@
     "summary_formatter": {
       "format": "%(asctime)s:%(module)s:%(levelname)s:%(message)s",
       "datefmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "console_formatter": {
+      "format": "%(asctime)s:%(module)s:%(levelname)s:%(message)s",
+      "datefmt": "%Y-%m-%d %H:%M:%S"
     }
   },
   "handlers": {
@@ -53,7 +57,8 @@
     "console": {
       "level": "DEBUG",
       "class": "logging.StreamHandler",
-      "formatter": "detail_formatter"
+      "formatter": "console_formatter",
+      "stream": "ext://sys.stdout"
     }
   },
   "loggers": {
