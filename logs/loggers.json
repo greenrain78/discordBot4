@@ -54,6 +54,16 @@
       "interval": 1,
       "encoding": "utf-8"
     },
+    "DB_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "detail_formatter",
+      "filename":  "logs/db/db",
+      "when": "midnight",
+      "backupCount": 30,
+      "interval": 1,
+      "encoding": "utf-8"
+    },
     "console": {
       "level": "DEBUG",
       "class": "logging.StreamHandler",
@@ -82,6 +92,10 @@
       "level": "DEBUG",
       "handlers": ["message_file_handler", "console"],
       "propagate": false
+    },
+    "DiscordBot4.DB": {
+      "level": "DEBUG",
+      "handlers": ["DB_file_handler"]
     }
   }
 }
