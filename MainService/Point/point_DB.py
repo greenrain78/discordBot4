@@ -2,6 +2,7 @@ from logging import getLogger
 from typing import List
 
 from DiscordBot4.DB import manageDB
+
 log = getLogger(__name__)
 
 tableName_user = 'discord_user'
@@ -38,12 +39,14 @@ class PointDB(object):
 # ---------------------------------create---------------------------------
 
     @staticmethod
-    def create_user(name: str, role: str, point: int, sleep: int):
+    def create_user(name: str, role: str, point: int):
         sql = f'insert into {tableName_user} ' \
               f'(name, role, point, sleep) values(' \
-              f'"{name}", "{role}", {point}, {sleep})'
+              f'"{name}", "{role}", {point}, {0})'
         manageDB.runSQL(sql)
-        log.debug(f"insert_user: {name}, role({role}), point({point}), sleep({sleep})")
+
+        PointDB.earn_point_user(name, point, "처음으로 출석하셨습니다.")
+        log.debug(f"insert_user: {name}, role({role}), point({point})")
 
 # ---------------------------------update---------------------------------
 
@@ -92,7 +95,6 @@ class PointDB(object):
               f'WHERE name = "{user}"'
         result = manageDB.getOneSQL(sql)
         log.debug("get_point")
-        log.debug(result)
         return result[0]
 
     @staticmethod

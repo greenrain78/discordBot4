@@ -15,7 +15,7 @@ class PointBot(commands.Cog):
     """
     def __init__(self, bot):
         self.bot = bot
-        self.engine = PointEngine()
+        PointEngine.initSchedule()
 
     @commands.group()
     async def point(self, ctx):
@@ -35,7 +35,7 @@ class PointBot(commands.Cog):
         현재 내 포인트를 보여준다.
         """
         user = ctx.author.name
-        text = self.engine.getPoint(user)
+        text = PointEngine.getPoint(user)
         # msg = await ctx.send(embed=embed)
         msg = await ctx.send(text)
         await asyncio.sleep(60)
@@ -46,10 +46,10 @@ class PointBot(commands.Cog):
     @point.command()
     async def event(self, ctx):
         """
-        내 포인트 조회
-        현재 내 포인트를 보여준다.
+        디코 포인트 이벤트
+        현재 진행중인 디코 이벤트를 알려준다.
         """
-        embed = self.engine.eventInfo()
+        embed = PointEngine.eventInfo()
         msg = await ctx.send(embed=embed)
         await asyncio.sleep(60)
 
@@ -61,7 +61,7 @@ class PointBot(commands.Cog):
         if name in robot_user:
             return None
 
-        text = self.engine.dailyCheck(name)
+        text = PointEngine.dailyCheck(name)
         if text is None:    # 중복 채팅 무시
             return None
 
