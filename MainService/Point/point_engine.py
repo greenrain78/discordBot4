@@ -35,7 +35,7 @@ class PointEngine:
         log.info("PointEngine init schedule")
 
     @staticmethod
-    def eventInfo() -> Embed:
+    def event_info() -> Embed:
         title = "디스코드 포인트 이벤트"
         text = '디스코드 포인트를 모아 기프티콘을 받아 가자!!!!'
         em = discord.Embed(title=title, description=text)
@@ -60,12 +60,24 @@ class PointEngine:
         return em
 
     @classmethod
-    def getPoint(cls, name: str) -> str:
+    def get_point(cls, name: str) -> str:
         if name not in cls.sleep_list:
             text = f"미등록 사용자 입니다."
             return text
         pt = PointDB.get_point(name)
         text = f'유저({name})의 획득 포인트는 {pt}입니다,'
+        return text
+
+    @classmethod
+    def give_point(cls, name: str, point: int) -> str:
+        if name not in cls.sleep_list:
+            text = f"미등록 사용자 입니다."
+            return text
+        reason = f"관리자에 의해 사용자({name})가 포인트를 {point}만큼 획득하였습니다."
+        PointDB.earn_point_user(name, point, reason)
+        pt = PointDB.get_point(name)
+        text = f"관리자에 의해 사용자({name})가 포인트를 획득하셨습니다." \
+               f"획득 포인트: {point}, 총 포인트: {pt}"
         return text
 
     @classmethod
@@ -108,7 +120,7 @@ class PointEngine:
             return None
 
     @classmethod
-    def initUserList(cls    ):
+    def initUserList(cls):
         # make user list
         tmp_sleepList = PointDB.get_sleepList()
         if tmp_sleepList:
