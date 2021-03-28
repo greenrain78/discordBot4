@@ -10,7 +10,7 @@ log = getLogger(__name__)
 
 
 class GameBot(commands.Cog):
-    max_point = 10000000000
+    max_point = 1000
 
     def __init__(self, bot):
         self.bot = bot
@@ -89,7 +89,7 @@ class GameBot(commands.Cog):
     @commands.group()
     async def bet(self, ctx):
         """
-        디코 게임 명령어
+        배팅 명령어
         """
         if ctx.invoked_subcommand is None:
             text = f"해당 명령어가 없습니다.\n" \

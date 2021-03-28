@@ -5,6 +5,7 @@ from discord.ext import commands
 from MainService.ERBS.erbs_bot import ERBSBot
 from MainService.Game.game_bot import GameBot
 from MainService.Point.point_bot import PointBot
+from MainService.Stock.stock_bot import StockBot
 from settings import debug, test_server_id
 
 log = getLogger(__name__)
@@ -22,7 +23,7 @@ class MyBot(commands.Bot):
         self.pointBot = PointBot(self)
         self.erbsBot = ERBSBot(self)
         self.gameBot = GameBot(self)
-        # self.stockBot = StockBot(self)
+        self.stockBot = StockBot(self)
 
         # Sub Service
         # self.chatBot = ChatBot(self)
@@ -32,10 +33,9 @@ class MyBot(commands.Bot):
         self.add_cog(self.pointBot)
         self.add_cog(self.erbsBot)
         self.add_cog(self.gameBot)
+        self.add_cog(self.stockBot)
         # self.add_cog(self.basicBot)
-
         # self.add_cog(self.chatBot)
-        # self.add_cog(self.stockBot)
 
     async def on_message(self, message):
         log.info('{0.author}: {0.content} - {0.guild} ({0.channel})'.format(message))

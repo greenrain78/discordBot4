@@ -37,25 +37,30 @@ class PointEngine:
     @staticmethod
     def event_info() -> Embed:
         title = "디스코드 포인트 이벤트"
-        text = '디스코드 포인트를 모아 기프티콘을 받아 가자!!!!'
+        text = '내 집 아니 내 치킨 마련!!'
         em = discord.Embed(title=title, description=text)
 
         title1 = "포인트 획득 방법"
         text1 = f"1. 매일 꾸준히 디스코드 방에 접속하여 출석채크를 한다.\n" \
-                f"2. 도박 기능 출시 예정\n"
+                f"2. 자신만의 투자 비법으로 주식 투자. ($stcok)\n" \
+                f"3. 친구들과 내기를 통해 친구 등쳐먹기 ($bet)\n" \
+                f"4. 인생은 운빨, 각종 게임으로 내 운을 시험해 본다. ($game)"
         em.add_field(name=title1, value=text1, inline=False)
 
         title2 = "상품 목록"
-        text2 = f"커피 기프티콘 2장\n" \
-                f"목표 포인트: 10000pt\n" \
-                f"남은 수량: 0장\n" \
-                f"(상일이가 모든 상품을 수령하였습니다.)\n\n" \
-                f"아직 상품이 준비안되었습니다.\n" \
-                f"프리 시즌 기간"
+        text2 = f"파인다이닝 런치\n" \
+                f"목표 포인트: 1억 pt\n" \
+                f"수량: 1장 \n\n" \
+                f"치킨 기프티콘 1장\n" \
+                f"목표 포인트: 3천만원 pt\n" \
+                f"수량: 2장 \n\n" \
 
         em.add_field(name=title2, value=text2, inline=False)
+        title3 = "역대 상품 목록"
+        text3 = f"1. 커피 기프티콘 2장 - 모두 상일이가 수령"
 
-        footer = '반응이 좋거나 활성화가 잘되면 상품을 더 늘리겠습니다.'
+        em.add_field(name=title3, value=text3, inline=False)
+        footer = '여러분의 후원이 더 좋은 콘텐츠를 만듭니다.'
         em.set_footer(text=footer)
         return em
 

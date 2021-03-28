@@ -27,10 +27,11 @@ def runSQL(sql):
         cur = conn.cursor()
 
         cur.execute(sql)
-
+        print("run sql: ", sql)
         conn.commit()
         conn.close()
         log.debug("(run): %s", sql)
+        return sql
     except Exception as e:
         log.exception("run error: %s", sql)
 
@@ -58,11 +59,14 @@ def getOneSQL(sql):
         cur = conn.cursor()
 
         cur.execute(sql)
-        result = cur.fetchone()
+        result = cur.fetchall()
 
         conn.commit()
         conn.close()
         log.debug("(get): %s \n \t %s", sql, result)
-        return result
+        if result:
+            return result[0]
+        else:
+            return None
     except Exception as e:
         log.exception("get error: %s", sql)

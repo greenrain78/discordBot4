@@ -9,6 +9,10 @@ log = getLogger(__name__)
 
 
 class ERBSBot(commands.Cog):
+    """
+    블서 봇
+    블서에 대한 명령어를 담당하는 봇이다.
+    """
     def __init__(self, bot):
         self.bot = bot
 

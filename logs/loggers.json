@@ -69,6 +69,12 @@
       "class": "logging.StreamHandler",
       "formatter": "console_formatter",
       "stream": "ext://sys.stdout"
+    },
+     "error_console": {
+      "level": "ERROR",
+      "class": "logging.StreamHandler",
+      "formatter": "console_formatter",
+        "stream": "ext://sys.stderr"
     }
   },
   "loggers": {
@@ -95,7 +101,7 @@
     },
     "DiscordBot4.DB": {
       "level": "DEBUG",
-      "handlers": ["DB_file_handler"],
+      "handlers": ["DB_file_handler", "error_console"],
       "propagate": false
 
     }
