@@ -74,6 +74,21 @@ class PointEngine:
         return text
 
     @classmethod
+    def get_list(cls, name: str) -> str:
+        response = PointDB.get_list(name)
+        title = f"사용자: {name}의 점수 리스트"
+        text = ""
+        for row in response:
+            text += f"{row[2]} pt : " \
+                    f"날짜({row[4]}), " \
+                    f"총합({row[5]}) \n" \
+                    f"{row[3]}\n\n"
+
+        em = discord.Embed(title=title, description=text)
+        return em
+
+
+    @classmethod
     def give_point(cls, name: str, point: int) -> str:
         if name not in cls.sleep_list:
             text = f"미등록 사용자 입니다."

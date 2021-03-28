@@ -98,6 +98,15 @@ class PointDB(object):
         return result[0]
 
     @staticmethod
+    def get_list(user: str) -> List:
+        sql = f'SELECT * FROM {tableName_point} ' \
+              f'WHERE user = "{user}" ' \
+              f'ORDER BY time DESC LIMIT 10;'
+        result = manageDB.getSQL(sql)
+        log.debug(f"read user list = {user} : {result} ")
+        return result
+
+    @staticmethod
     def get_sleepList() -> List[tuple]:
         sql = f"select name, sleep from {tableName_user}"
         result = manageDB.getSQL(sql)

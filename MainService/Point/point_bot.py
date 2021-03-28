@@ -69,6 +69,20 @@ class PointBot(commands.Cog):
             await msg.delete()  # 메세지 삭제
 
     @point.command()
+    async def mylist(self, ctx):
+        """
+        내 점수 리스트 확인
+        최근 포인트 획득 리스트를 확인한다.
+        """
+        user = ctx.author.name
+        embed = PointEngine.get_list(user)
+        msg = await ctx.send(embed=embed)
+        await asyncio.sleep(60)
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제
+
+    @point.command()
     async def event(self, ctx):
         """
         디코 포인트 이벤트
