@@ -8,9 +8,9 @@ from settings import debug
 log = getLogger(__name__)
 
 point_table = {
-    'first': 500,
+    'first': 50000,
     'sleep': 20,
-    'daily': 100,
+    'daily': 10000,
 }
 
 
