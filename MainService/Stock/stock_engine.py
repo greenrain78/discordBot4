@@ -35,7 +35,7 @@ class StockEngine:
 
         # 보유 포인트 확인
         pt = PointDB.get_point(name)
-        if price > pt:
+        if price * quantity > pt:
             title = "주식 매수 실패"
             text = f"보유 포인트 부족으로 주식 매수를 실패하였습니다.\n" \
                    f"보유 포인트: {pt}, 주식 가격: {price}"
