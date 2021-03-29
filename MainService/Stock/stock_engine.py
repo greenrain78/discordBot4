@@ -126,7 +126,7 @@ class StockEngine:
     def search(cls, code: str):
         title = f"주식 검색: 코드 - {code}"
         response = StockCrawlingClient.get_stock_info(code)
-        text = f"주식명: {response['stock_name']}" \
+        text = f"주식명: {response['stock_name']}\n" \
                f"가격: {response['now_price']}"
         em = Embed(title=title, description=text)
         footer = '딜래이로 인해 실제와 많이 다를 수 있습니다.'
