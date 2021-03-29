@@ -16,7 +16,7 @@ class MyBot(commands.Bot):
 
     def __init__(self):
         prefix = commands.when_mentioned_or("$")
-        desc = 'GreenRain discord bot 4.0.5'
+        desc = 'GreenRain discord bot 4.0.6'
         super(MyBot, self).__init__(command_prefix=prefix, description=desc)
 
         # create bot
