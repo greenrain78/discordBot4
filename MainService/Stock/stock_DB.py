@@ -41,7 +41,7 @@ class StockDB(object):
     @classmethod
     def buy_stock(cls, user: str, stock_name: str, code: str, price: int, quantity: int):
         now_quantity = cls.select_stock_quantity(user, code)
-        if now_quantity <= 0:
+        if now_quantity is None:
             cls.insert_stock(user, stock_name, code,  price, quantity)
             reason = f"주식을 새로 구입하였습니다."
         else:
@@ -107,7 +107,7 @@ class StockDB(object):
         if result:
             return result[0]
         else:
-            return 0
+            return None
 
     @staticmethod
     def select_stock_info(user: str):
