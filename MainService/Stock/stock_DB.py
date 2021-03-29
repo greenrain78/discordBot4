@@ -54,7 +54,7 @@ class StockDB(object):
     @classmethod
     def sell_stock(cls, user: str, stock_name: str, code: str, price: int, quantity: int):
         now_quantity = cls.select_stock_quantity(user, code)
-        if now_quantity > 0:
+        if now_quantity - quantity > 0:
             cls.update_stock(user, code, price, -quantity)
             reason = f"주식을 {quantity}만큼 판매하였습니다."
         else:

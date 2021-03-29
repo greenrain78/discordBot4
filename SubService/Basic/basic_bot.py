@@ -30,20 +30,14 @@ class BasicBot(commands.Cog):
         디코 봇 상태 확인
         """
         name = ctx.message.author.name
-        if name == '김대원':
-            embed = BasicEngine.get_state()
-            msg = await ctx.send(embed=embed)
-            await asyncio.sleep(60)
 
-            await ctx.message.delete()  # 입력된 명령 제거
-            await msg.delete()  # 메세지 삭제
-        else:
-            text = '허용되지 않은 사용자 입니다.'
-            msg = await ctx.send(text)
-            await asyncio.sleep(60)
+        embed = BasicEngine.get_state()
+        msg = await ctx.send(embed=embed)
+        await asyncio.sleep(60)
 
-            await ctx.message.delete()  # 입력된 명령 제거
-            await msg.delete()  # 메세지 삭제
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제
+
 
     @basic.command()
     async def github(self, ctx):
