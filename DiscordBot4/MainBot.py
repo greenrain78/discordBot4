@@ -6,6 +6,7 @@ from MainService.ERBS.erbs_bot import ERBSBot
 from MainService.Game.game_bot import GameBot
 from MainService.Point.point_bot import PointBot
 from MainService.Stock.stock_bot import StockBot
+from SubService.Basic.basic_bot import BasicBot
 from settings import debug, test_server_id
 
 log = getLogger(__name__)
@@ -24,17 +25,17 @@ class MyBot(commands.Bot):
         self.erbsBot = ERBSBot(self)
         self.gameBot = GameBot(self)
         self.stockBot = StockBot(self)
-
+        self.basicBot = BasicBot(self)
         # Sub Service
         # self.chatBot = ChatBot(self)
-        # self.basicBot = BasicBot(self, pointBot=self.pointBot, erbsBot=self.erbsBot)
+
 
         # # add bot
         self.add_cog(self.pointBot)
         self.add_cog(self.erbsBot)
         self.add_cog(self.gameBot)
         self.add_cog(self.stockBot)
-        # self.add_cog(self.basicBot)
+        self.add_cog(self.basicBot)
         # self.add_cog(self.chatBot)
 
     async def on_message(self, message):
