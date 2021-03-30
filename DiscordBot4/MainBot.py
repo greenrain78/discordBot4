@@ -7,6 +7,7 @@ from MainService.Game.game_bot import GameBot
 from MainService.Point.point_bot import PointBot
 from MainService.Stock.stock_bot import StockBot
 from SubService.Basic.basic_bot import BasicBot
+from SubService.Chat.chat_bot import ChatBot
 from settings import debug, test_server_id
 
 log = getLogger(__name__)
@@ -27,7 +28,7 @@ class MyBot(commands.Bot):
         self.stockBot = StockBot(self)
         self.basicBot = BasicBot(self)
         # Sub Service
-        # self.chatBot = ChatBot(self)
+        self.chatBot = ChatBot(self)
 
 
         # # add bot
@@ -36,7 +37,7 @@ class MyBot(commands.Bot):
         self.add_cog(self.gameBot)
         self.add_cog(self.stockBot)
         self.add_cog(self.basicBot)
-        # self.add_cog(self.chatBot)
+        self.add_cog(self.chatBot)
 
     async def on_message(self, message):
         log.info('{0.author}: {0.content} - {0.guild} ({0.channel})'.format(message))
