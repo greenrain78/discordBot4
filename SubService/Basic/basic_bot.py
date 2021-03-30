@@ -29,8 +29,6 @@ class BasicBot(commands.Cog):
         """
         디코 봇 상태 확인
         """
-        name = ctx.message.author.name
-
         embed = BasicEngine.get_state()
         msg = await ctx.send(embed=embed)
         await asyncio.sleep(60)

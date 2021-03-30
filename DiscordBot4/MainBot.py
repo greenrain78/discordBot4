@@ -26,10 +26,9 @@ class MyBot(commands.Bot):
         self.erbsBot = ERBSBot(self)
         self.gameBot = GameBot(self)
         self.stockBot = StockBot(self)
-        self.basicBot = BasicBot(self)
         # Sub Service
+        self.basicBot = BasicBot(self)
         self.chatBot = ChatBot(self)
-
 
         # # add bot
         self.add_cog(self.pointBot)
@@ -50,6 +49,6 @@ class MyBot(commands.Bot):
                 log.info('배포중 디버깅 서버에서는 동작하지 않습니다.')
                 return None
 
-        # await self.chatBot.checkBlock(message)
+        await self.chatBot.checkBlock(message)
         await super(MyBot, self).on_message(message)
         await self.pointBot.dailyCheck(message)

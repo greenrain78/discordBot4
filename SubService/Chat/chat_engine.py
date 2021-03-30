@@ -1,40 +1,47 @@
 import threading
 from datetime import datetime
+from logging import getLogger
 from time import sleep
+log = getLogger(__name__)
 
 
 class ChatEngine:
     blockList = {}
 
     def __init__(self):
-        pass
+        log.info("BasicEngine init 실제 동작 안함")
 
-    def userBlock(self, name: str, time: int) -> str:
+    @classmethod
+    def userBlock(cls, name: str, time: int) -> str:
         # 미존재시
-        if name not in self.blockList:
-            self.blockList[name] = (time, datetime.now())
-            th = threading.Thread(target=self.userSleep, args=(name, time))
+        if name not in cls.blockList:
+            cls.blockList[name] = (time, datetime.now())
+            th = threading.Thread(target=cls.userSleep, args=(name, time))
             th.start()
 
             text = f"유저[{name}]을 {time}동안 성공적으로 침묵시켰습니다."
         else:
-            text = self.getUser(name)
+            text = cls.getUser(name)
         return text
 
-    def getUser(self, name) -> str:
-        user = self.blockList.get(name)
+    @classmethod
+    def getUser(cls, name) -> str:
+        user = cls.blockList.get(name)
         text = f"유저[{name}]을 {user[1]}부터 {user[0]}동안 침묵중"
         return text
 
-    def userSleep(self, name, time):
+    @classmethod
+    def userSleep(cls, name, time):
         sleep(int(time))
-        del self.blockList[name]
+        del cls.blockList[name]
 
-    def checkUser(self, name) -> bool:
-        if name in self.blockList:
+    @classmethod
+    def checkUser(cls, name) -> bool:
+        if name in cls.blockList:
             return True
         else:
             return False
 
-    def clearList(self):
-        self.blockList.clear()
+    @classmethod
+    def clearList(cls):
+        cls.blockList.clear()
