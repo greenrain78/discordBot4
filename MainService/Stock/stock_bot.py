@@ -107,13 +107,13 @@ class StockBot(commands.Cog):
         await msg.delete()  # 메세지 삭제
 
     @stock.command()
-    async def popular(self, ctx, name):
+    async def popular(self, ctx):
         """
         인기 있는 주식 리스트
         인기 있는 주식 리스트를 보여준다.
         업데이트시 매번 초기화 된다.
         """
-        embed = StockEngine.popular(name)
+        embed = StockEngine.popular()
         msg = await ctx.send(embed=embed)
         await asyncio.sleep(60)
 

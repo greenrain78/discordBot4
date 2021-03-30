@@ -21,8 +21,9 @@ class StockEngine:
             text2 += f"보유 주식이 없습니다."
         else:
             for stock in stock_list:
+                pt_str = "{:,}".format(stock[4])
                 text2 += f"주식명: {stock[2]} 코드: {stock[3]}\n" \
-                         f"매수 금액: {stock[4]}, 보유수: {stock[5]}, 시간{stock[6]}\n\n"
+                         f"매수 금액: {pt_str}, 보유수: {stock[5]}, 시간{stock[6]}\n\n"
             em.add_field(name=title2, value=text2, inline=False)
         # return em
 
@@ -36,9 +37,12 @@ class StockEngine:
         # 보유 포인트 확인
         pt = PointDB.get_point(name)
         if price * quantity > pt:
+            pt_str = "{:,}".format(pt)
+            price_str = "{:,}".format(price)
+
             title = "주식 매수 실패"
             text = f"보유 포인트 부족으로 주식 매수를 실패하였습니다.\n" \
-                   f"보유 포인트: {pt}, 주식 가격: {price}"
+                   f"보유 포인트: {pt_str}, 주식 가격: {price_str}"
             em = Embed(title=title, description=text)
             footer = '돈 없으면 저리가'
             em.set_footer(text=footer)
@@ -135,5 +139,17 @@ class StockEngine:
         return em
 
     @classmethod
-    def popular(cls, name):
-        pass
+    def popular(cls):
+        title = f"최근 관심 주식 리스트"
+        text = ""
+        stock_list = StockDB.select_stock_code_list()
+        print(stock_list)
+        for code in stock_list:
+            response = StockCrawlingClient.get_stock_info(code[0])
+            text += f"주식명: {response['stock_name']}\n" \
+                    f"가격: {response['now_price']}\n\n"
+        em = Embed(title=title, description=text)
+        footer = '딜래이로 인해 실제와 많이 다를 수 있습니다.'
+
+        em.set_footer(text=footer)
+        return em

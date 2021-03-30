@@ -117,6 +117,14 @@ class StockDB(object):
         log.debug("select_stock_info")
         return result
 
+    @staticmethod
+    def select_stock_code_list():
+        sql = f'SELECT DISTINCT code from {tableName_history} ' \
+              f'ORDER BY time DESC '    # 최근순으로 정렬
+        result = manageDB.getSQL(sql)
+        log.debug("select_stock_code_list")
+        return result
+
     # ---------------------------------delete---------------------------------
 
     @staticmethod
