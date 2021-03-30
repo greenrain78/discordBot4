@@ -10,7 +10,7 @@ log = getLogger(__name__)
 
 
 class GameBot(commands.Cog):
-    max_point = 1000
+    max_point = 10000
 
     def __init__(self, bot):
         self.bot = bot
