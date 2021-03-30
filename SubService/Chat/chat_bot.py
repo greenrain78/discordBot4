@@ -1,8 +1,10 @@
 import asyncio
+from logging import getLogger
+
 from discord.ext import commands
 
-from Chat.chat_engine import ChatEngine
-from Log.infoLog import logger as log
+from SubService.Chat.chat_engine import ChatEngine
+log = getLogger(__name__)
 
 
 class ChatBot(commands.Cog):
