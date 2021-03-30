@@ -4,6 +4,7 @@ from discord.ext import commands
 
 from MainService.ERBS.erbs_bot import ERBSBot
 from MainService.Game.game_bot import GameBot
+from MainService.Music.music_bot import MusicBot
 from MainService.Point.point_bot import PointBot
 from MainService.Stock.stock_bot import StockBot
 from SubService.Basic.basic_bot import BasicBot
@@ -26,6 +27,7 @@ class MyBot(commands.Bot):
         self.erbsBot = ERBSBot(self)
         self.gameBot = GameBot(self)
         self.stockBot = StockBot(self)
+        self.musicBot = MusicBot(self)
         # Sub Service
         self.basicBot = BasicBot(self)
         self.chatBot = ChatBot(self)
@@ -35,6 +37,9 @@ class MyBot(commands.Bot):
         self.add_cog(self.erbsBot)
         self.add_cog(self.gameBot)
         self.add_cog(self.stockBot)
+        self.add_cog(self.musicBot)
+
+        # add sub bot
         self.add_cog(self.basicBot)
         self.add_cog(self.chatBot)
 
