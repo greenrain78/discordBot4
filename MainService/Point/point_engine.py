@@ -70,7 +70,8 @@ class PointEngine:
             text = f"미등록 사용자 입니다."
             return text
         pt = PointDB.get_point(name)
-        text = f'유저({name})의 획득 포인트는 {pt}입니다,'
+        pt_str = "{:,}".format(pt)
+        text = f'유저({name})의 획득 포인트는 {pt_str}입니다,'
         return text
 
     @classmethod
@@ -79,7 +80,8 @@ class PointEngine:
         title = f"사용자: {name}의 점수 리스트"
         text = ""
         for row in response:
-            text += f"{row[2]} pt : " \
+            pt_str = "{:,}".format(row[2])
+            text += f"{pt_str} pt : " \
                     f"날짜({row[4]}), " \
                     f"총합({row[5]}) \n" \
                     f"{row[3]}\n\n"
