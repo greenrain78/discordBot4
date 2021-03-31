@@ -45,6 +45,7 @@ class MusicBot(commands.Cog):
         ctx.voice_client.play(source, after=lambda e: print('Player error: %s' % e) if e else None)
 
         msg = await ctx.send('Now playing: {}'.format(query))
+        await asyncio.sleep(60)
 
         await ctx.message.delete()  # 입력된 명령 제거
         await msg.delete()  # 메세지 삭제
@@ -60,6 +61,7 @@ class MusicBot(commands.Cog):
             ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
 
         msg = await ctx.send('Now playing: {}'.format(player.title))
+        await asyncio.sleep(60)
 
         await ctx.message.delete()  # 입력된 명령 제거
         await msg.delete()  # 메세지 삭제
@@ -76,6 +78,7 @@ class MusicBot(commands.Cog):
             ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
 
         msg = await ctx.send('Now playing: {}'.format(player.title))
+        await asyncio.sleep(60)
 
         await ctx.message.delete()  # 입력된 명령 제거
         await msg.delete()  # 메세지 삭제
