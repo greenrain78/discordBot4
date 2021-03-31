@@ -1,15 +1,16 @@
 # Suppress noise about console usage from errors
 import asyncio
+import os
 
 import discord
 import youtube_dl
 
 youtube_dl.utils.bug_reports_message = lambda: ''
-download_folder = "download_file/"
+output_dir = "media/music"
 
 ytdl_format_options = {
     'format': 'bestaudio/best',
-    'outtmpl': download_folder + '%(extractor)s-%(id)s-%(title)s.%(ext)s',
+    'outtmpl': os.path.join(output_dir, '%(extractor)s-%(id)s-%(title)s.%(ext)s'),
     'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,

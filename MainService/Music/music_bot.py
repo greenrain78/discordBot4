@@ -11,8 +11,8 @@ class MusicBot(commands.Cog):
     @commands.group()
     async def music(self, ctx):
         """
-        basic 명령어
-        디코 봇에 대한 기본 명령어
+        music 명령어
+        음악 재생 명령어
         """
         if ctx.invoked_subcommand is None:
             text = f"해당 명령어가 없습니다.\n" \
