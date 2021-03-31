@@ -1,3 +1,5 @@
+import asyncio
+
 import discord
 from discord.ext import commands
 
@@ -42,7 +44,10 @@ class MusicBot(commands.Cog):
         source = discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(query))
         ctx.voice_client.play(source, after=lambda e: print('Player error: %s' % e) if e else None)
 
-        await ctx.send('Now playing: {}'.format(query))
+        msg = await ctx.send('Now playing: {}'.format(query))
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제
 
     @music.command()
     async def yt(self, ctx, *, url):
@@ -54,7 +59,10 @@ class MusicBot(commands.Cog):
             player = await YTDLSource.from_url(url, loop=self.bot.loop)
             ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
 
-        await ctx.send('Now playing: {}'.format(player.title))
+        msg = await ctx.send('Now playing: {}'.format(player.title))
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제
 
     @music.command()
     async def stream(self, ctx, *, url):
@@ -67,12 +75,16 @@ class MusicBot(commands.Cog):
             player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
             ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
 
-        await ctx.send('Now playing: {}'.format(player.title))
+        msg = await ctx.send('Now playing: {}'.format(player.title))
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제
+
 
     @music.command()
     async def volume(self, ctx, volume: int):
         """
-        볼륨 조절
+        볼륨 조절 (1~200)
         Changes the player's volume
         """
 
@@ -80,7 +92,11 @@ class MusicBot(commands.Cog):
             return await ctx.send("Not connected to a voice channel.")
 
         ctx.voice_client.source.volume = volume / 100
-        await ctx.send("Changed volume to {}%".format(volume))
+        msg = await ctx.send("Changed volume to {}%".format(volume))
+        await asyncio.sleep(60)
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제
 
     @music.command()
     async def stop(self, ctx):
@@ -101,6 +117,9 @@ class MusicBot(commands.Cog):
             ctx.voice_client.pause()
         else:
             ctx.voice_client.resume()
+
+        await asyncio.sleep(60)
+        await ctx.message.delete()  # 입력된 명령 제거
 
     @play.before_invoke
     @yt.before_invoke
