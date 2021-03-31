@@ -13,6 +13,8 @@ logs/info/
 logs/error/
 logs/message/
 
+MainService/Music/download_file/
+
 __pycache__/
 /__pycache__
 
