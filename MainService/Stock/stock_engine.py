@@ -115,8 +115,15 @@ class StockEngine:
             text = f" test"
             em = Embed(title=title, description=text)
             for stock in stock_list:
-                title1 = f"주식명: {stock[2]} 코드: {stock[3]}"
-                text1 = f"매수 금액: {stock[4]}, 보유수: {stock[5]}, 시간{stock[6]}"
+                response = StockCrawlingClient.get_stock_info(stock[3])
+                price_str = "{:,}".format(stock[4])
+
+                title1 = f"주식명: {stock[2]}\n" \
+                         f"코드: {stock[3]}"
+                text1 = f"매수 금액: {price_str}\n" \
+                        f"현재 금액: {response['now_price']}\n" \
+                        f"보유수: {stock[5]}\n" \
+                        f"시간: {stock[6]}"
                 em.add_field(name=title1, value=text1, inline=True)
             footer = '딜래이로 인해 실제와 많이 다를 수 있습니다.'
         else:
