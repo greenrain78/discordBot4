@@ -64,7 +64,7 @@ class ErbsClient(object):
         if response.status_code != 200:
             raise ValueError(json_resp.get('message', 'API Error'))
 
-        return json_resp.get("userGames", [])
+        return json_resp.get("userStats", [])
 
     async def fetch_meta_data(self, meta_type: str = 'hash') -> List[dict]:
         url = f'{self.api_url}/data/{meta_type}'

@@ -64,3 +64,18 @@ class ERBSBot(commands.Cog):
         #
         # await ctx.message.delete()  # 입력된 명령 제거
         # await msg.delete()  # 메세지 삭제
+
+    @bser.command()
+    async def user(self, ctx, name: str):
+        """
+        블서 유저 상태 정보 조회
+        유저의 블서 통계 정보를 보여준다.
+        """
+
+        embed = await ErbsEngine.user_info(name)
+        msg = await ctx.send(embed=embed)
+        await asyncio.sleep(60)
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제
+

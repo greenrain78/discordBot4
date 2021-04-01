@@ -83,6 +83,46 @@ class ErbsEngine:
         return em
 
     @classmethod
+    async def user_info(cls, name: str):
+        # 경기 데이터 수집
+        log.debug('user name: %s', name)
+        user_num = await cls.erbsAPI.fetch_user_nickname(name)
+        log.debug('user_num: %s', user_num)
+        result = await cls.erbsAPI.fetch_user_stats(user_num)
+        log.debug('result = \n  %s', result)
+        # 메세지 제작
+        title = f"{name}의 최근 경기 리스트 - 시즌: {result[0]['seasonId']}"
+        text = "----------솔로-----------------------듀오-----------------------스쿼드-----------"
+        em = discord.Embed(title=title, description=text, inline=False)
+
+        print("-------------------------")
+        for game in result:
+            print(game)
+            title1 = f"matchingTeamMode: {game['matchingTeamMode']}"
+            text1 = f"mmr: {game['mmr']}\n" \
+                    f"랭크: {game['rank']}\n" \
+                    f"rankSize: {game['rankSize']}\n" \
+                    f"상위: {game['rankPercent']*100}%\n" \
+                    f"게임수: {game['totalGames']}\n" \
+                    f"총 승리수: {game['totalWins']}\n" \
+                    f"평균 Rank: {game['averageRank']}\n" \
+                    f"평균 Kills: {game['averageKills']}\n" \
+                    f"평균 Assistants: {game['averageAssistants']}\n" \
+                    f"평균 Hunts: {game['averageHunts']}\n" \
+                    f"top1: {game['top1']}\n" \
+                    f"top2: {game['top2']}\n" \
+                    f"top3: {game['top3']}\n" \
+                    f"top5: {game['top5']}\n" \
+                    f"top7: {game['top7']}\n"
+            em.add_field(name=title1, value=text1, inline=True)
+
+        footer = f"유저 코드: {result[0]['userNum']}"
+        em.set_footer(text=footer)
+
+        return em
+
+
+    @classmethod
     async def mmr_list(cls, name: str):
         # To do 미구형
         # 경기 데이터 수집
@@ -110,3 +150,5 @@ class ErbsEngine:
 
         # return em
         pass
+
+
