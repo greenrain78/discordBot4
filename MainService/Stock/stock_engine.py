@@ -154,6 +154,7 @@ class StockEngine:
         for code in stock_list:
             response = StockCrawlingClient.get_stock_info(code[0])
             text += f"주식명: {response['stock_name']}\n" \
+                    f"코드: {code[0]}\n" \
                     f"가격: {response['now_price']}\n\n"
         em = Embed(title=title, description=text)
         footer = '딜래이로 인해 실제와 많이 다를 수 있습니다.'
