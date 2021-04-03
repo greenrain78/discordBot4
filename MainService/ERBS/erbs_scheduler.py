@@ -17,7 +17,7 @@ class ErbsScheduler(object):
     """
     erbsAPI = ErbsClient(api_key=erbs_api_key, version='v1')
     schedule = BackgroundScheduler()
-    user_list = [105103, ]
+    user_list = [105103, 99148, 1933224, 99159]
 
     @classmethod
     def init_schedule(cls):
