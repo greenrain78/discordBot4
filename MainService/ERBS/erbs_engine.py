@@ -1,8 +1,11 @@
+import os
 from logging import getLogger
 
 import discord
 
 from MainService.ERBS.ERBS_api_client import ErbsClient
+from MainService.ERBS.erbs_DB import ErbsDB
+from MainService.ERBS.erbs_scheduler import ErbsScheduler
 from settings import erbs_api_key
 
 api_key = erbs_api_key
@@ -14,6 +17,9 @@ log = getLogger(__name__)
 class ErbsEngine:
     # API Client 생성
     erbsAPI = ErbsClient(api_key=api_key, version=version)
+    path = os.path.dirname(os.path.abspath(__file__))
+    ErbsDB.initDB()
+    ErbsScheduler.init_schedule()
 
     @classmethod
     async def recent(cls, name: str):
@@ -21,7 +27,7 @@ class ErbsEngine:
         log.debug('user name: %s', name)
         user_num = await cls.erbsAPI.fetch_user_nickname(name)
         log.debug('user_num: %s', user_num)
-        result = await cls.erbsAPI.fetch_user_games(user_num)
+        result = cls.erbsAPI.fetch_user_games(user_num)
         log.debug('result = \n  %s', result)
         game = result[0]  # 제일 마지막 판
 
@@ -64,7 +70,7 @@ class ErbsEngine:
         log.debug('user name: %s', name)
         user_num = await cls.erbsAPI.fetch_user_nickname(name)
         log.debug('user_num: %s', user_num)
-        result = await cls.erbsAPI.fetch_user_games(user_num)
+        result = cls.erbsAPI.fetch_user_games(user_num)
         log.debug('result = \n  %s', result)
 
         # 메세지 제작
@@ -102,7 +108,7 @@ class ErbsEngine:
             text1 = f"mmr: {game['mmr']}\n" \
                     f"랭크: {game['rank']}\n" \
                     f"rankSize: {game['rankSize']}\n" \
-                    f"상위: {game['rankPercent']*100}%\n" \
+                    f"상위: {game['rankPercent'] * 100}%\n" \
                     f"게임수: {game['totalGames']}\n" \
                     f"총 승리수: {game['totalWins']}\n" \
                     f"평균 Rank: {game['averageRank']}\n" \
@@ -120,7 +126,6 @@ class ErbsEngine:
         em.set_footer(text=footer)
 
         return em
-
 
     @classmethod
     async def mmr_list(cls, name: str):
@@ -151,4 +156,44 @@ class ErbsEngine:
         # return em
         pass
 
+    @classmethod
+    async def image(cls) -> dict:
+        # 디스코드에 올릴 파일을 지정하고, attachment에서 사용할 이름을 "image.png"로 지정
+        file_name = os.path.join(cls.path, "test_image.jpg")
+        image = discord.File(file_name, filename="image.png")
 
+        # Embed 메시지 구성
+        em = discord.Embed(title="테스트", description="테스트용 메시지입니다.", color=0x00ff56)
+        # 아까 지정한 파일 이름으로 해야함.
+        # em.set_thumbnail(url="attachment://image.png")
+        em.set_image(url="attachment://image.png")
+
+        # em.add_field(name="이름", value="값", inline=True)
+
+        result = {
+            "embed": em,
+            "image": image,
+        }
+
+        return result
+
+    @classmethod
+    async def meta(cls) -> dict:
+        # 디스코드에 올릴 파일을 지정하고, attachment에서 사용할 이름을 "image.png"로 지정
+        file_name = os.path.join(cls.path, "test_image.jpg")
+        image = discord.File(file_name, filename="image.png")
+
+        # Embed 메시지 구성
+        em = discord.Embed(title="테스트", description="테스트용 메시지입니다.", color=0x00ff56)
+        # 아까 지정한 파일 이름으로 해야함.
+        # em.set_thumbnail(url="attachment://image.png")
+        em.set_image(url="attachment://image.png")
+
+        # em.add_field(name="이름", value="값", inline=True)
+
+        result = {
+            "embed": em,
+            "image": image,
+        }
+
+        return result

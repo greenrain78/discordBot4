@@ -13,6 +13,7 @@ class ERBSBot(commands.Cog):
     블서 봇
     블서에 대한 명령어를 담당하는 봇이다.
     """
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -36,7 +37,6 @@ class ERBSBot(commands.Cog):
 
         await ctx.message.delete()  # 입력된 명령 제거
         await msg.delete()  # 메세지 삭제
-
 
     @bser.command()
     async def list(self, ctx, name: str):
@@ -79,3 +79,15 @@ class ERBSBot(commands.Cog):
         await ctx.message.delete()  # 입력된 명령 제거
         await msg.delete()  # 메세지 삭제
 
+    @bser.command()
+    async def image(self, ctx):
+        """
+        이미지 전송 테스트
+        """
+
+        res = await ErbsEngine.image()
+        msg = await ctx.send(embed=res['embed'], file=res['image'])
+        await asyncio.sleep(60)
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제

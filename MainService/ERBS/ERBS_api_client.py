@@ -43,7 +43,7 @@ class ErbsClient(object):
         userInfo = json_resp.get("user", [])
         return userInfo['userNum']
 
-    async def fetch_user_games(self, user_number: int) -> List[dict]:
+    def fetch_user_games(self, user_number: int) -> List[dict]:
         url = f'{self.api_url}/user/games/{user_number}'
         response = requests.get(url, headers=self.header_data)
         json_resp = response.json()
@@ -51,6 +51,21 @@ class ErbsClient(object):
             raise ValueError(json_resp.get('message', 'API Error'))
 
         return json_resp.get("userGames", [])
+
+    def fetch_user_games_next(self, user_number: int, next=None) -> Dict[str, list]:
+        if next is None:
+            url = f'{self.api_url}/user/games/{user_number}'
+        else:
+            url = f'{self.api_url}/user/games/{user_number}?next={next}'
+        response = requests.get(url, headers=self.header_data)
+        json_resp = response.json()
+        if response.status_code != 200:
+            raise ValueError(json_resp.get('message', 'API Error'))
+        result = {
+            'games': json_resp.get("userGames", []),
+            'next': json_resp.get("next", [])
+        }
+        return result
 
     async def fetch_user_stats(self,
                                user_number: Optional[int],
