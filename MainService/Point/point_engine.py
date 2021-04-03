@@ -9,7 +9,7 @@ log = getLogger(__name__)
 
 point_table = {
     'first': 50000,
-    'sleep': 20,
+    'sleep': 2000,
     'daily': 10000,
 }
 
