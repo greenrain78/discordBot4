@@ -22,6 +22,22 @@ class MusicBot(commands.Cog):
                    f"잘 모르시면 $help music"
             await ctx.send(text)
 
+    @commands.command()
+    async def yt(self, ctx, *, url):
+        """
+        유튜브 영상을 다운받아서 재생
+        Plays from a url (almost anything youtube_dl supports)
+        """
+        async with ctx.typing():
+            player = await YTDLSource.from_url(url, loop=self.bot.loop)
+            ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
+
+        msg = await ctx.send('Now playing: {}'.format(player.title))
+        await asyncio.sleep(60)
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제
+
     @music.command()
     async def join(self, ctx, *, channel: discord.VoiceChannel):
         """

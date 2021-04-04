@@ -6,6 +6,7 @@ from discord.ext import commands
 from MainService.Game.bet_engine import BetEngine
 from MainService.Game.game_engine import Gameboard
 from MainService.Point.point_DB import PointDB
+
 log = getLogger(__name__)
 
 
@@ -170,3 +171,28 @@ class GameBot(commands.Cog):
         await ctx.message.delete()  # 입력된 명령 제거
         await msg.delete()  # 메세지 삭제
 
+    @commands.command()
+    async def betting(self, ctx, point, arg):
+        """
+        포인트 배팅!!!!!!!!!!!!
+        """
+        user = ctx.author.name
+        pt = int(point)
+        check = self.checkPoint(user=user, pt=pt)
+        if check:
+            text = check
+        elif arg == "승":
+            text = f"승리에 참여하셨습니다\n"
+            text += BetEngine.betting(user, pt, True)
+        elif arg == "패":
+            text = f"패배에 참여하셨습니다\n"
+            text += BetEngine.betting(user, pt, False)
+        else:
+            text = f"예측 결과를 잘못 입력하셨습니다.\n" \
+                   f"{arg}: 승 또는 패 라고 입력해 주시기 바랍니다. ^^\n"
+
+        msg = await ctx.send(text)
+        await asyncio.sleep(60)
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제

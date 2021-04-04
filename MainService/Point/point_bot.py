@@ -29,6 +29,22 @@ class PointBot(commands.Cog):
                    f"잘 모르시면 $help point"
             await ctx.send(text)
 
+    @commands.command()
+    async def mypoint(self, ctx):
+        """
+        내 포인트 조회
+        현재 내 포인트를 보여준다.
+        """
+        user = ctx.author.name
+        text = PointEngine.get_point(user)
+        # msg = await ctx.send(embed=embed)
+        msg = await ctx.send(text)
+        await asyncio.sleep(60)
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제
+
+
     @point.command()
     async def mine(self, ctx):
         """
