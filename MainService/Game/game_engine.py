@@ -101,5 +101,5 @@ class GameUtil:
         reason = f"게임({game_name})으로 포인트:{point}만큼 획득하셨습니다."
         PointDB.earn_point_user(user, point, reason)
         PointDB.update_game_count_user(user)
-        text = f"획득 포인트: {point}"
+        text = f"{user}의 획득 포인트: {point}"
         return text
