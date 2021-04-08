@@ -44,7 +44,6 @@ class PointBot(commands.Cog):
         await ctx.message.delete()  # 입력된 명령 제거
         await msg.delete()  # 메세지 삭제
 
-
     @point.command()
     async def mine(self, ctx):
         """
@@ -122,4 +121,19 @@ class PointBot(commands.Cog):
 
         msg = await message.channel.send(text)
         await asyncio.sleep(10)
+        await msg.delete()  # 메세지 삭제
+
+    @commands.command()
+    async def randombox(self, ctx, betting=0):
+        """
+        랜덤 박스
+        원하는 만큼 배팅에 돈을 넣어 그러면 그만큼 돈이 복사가 된다구 ㄹㅇㅋㅋ
+        배팅한 포인트만큼 추가 획득
+        """
+        user = ctx.author.name
+        embed = PointEngine.random_box(user, betting)
+        msg = await ctx.send(embed=embed)
+        await asyncio.sleep(60)
+
+        await ctx.message.delete()  # 입력된 명령 제거
         await msg.delete()  # 메세지 삭제

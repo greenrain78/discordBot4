@@ -1,3 +1,5 @@
+import random
+from datetime import datetime, timedelta
 from logging import getLogger
 import discord
 from discord.embeds import Embed
@@ -12,10 +14,14 @@ point_table = {
     'sleep': 2000,
     'daily': 10000,
 }
+random_box_time = timedelta(days=1)
+random_max_point = 10000
+random_min_point = 1
 
 
 class PointEngine:
     sleep_list = {}
+    box_list = {}
     schedule = BackgroundScheduler()
     PointDB.initDB()
 
@@ -53,8 +59,7 @@ class PointEngine:
                 f"수량: 1장 \n\n" \
                 f"치킨 기프티콘 1장\n" \
                 f"목표 포인트: 3천만원 pt\n" \
-                f"수량: 2장 \n\n" \
-
+                f"수량: 2장 \n\n"
         em.add_field(name=title2, value=text2, inline=False)
         title3 = "역대 상품 목록"
         text3 = f"1. 커피 기프티콘 2장 - 모두 상일이가 수령"
@@ -88,7 +93,6 @@ class PointEngine:
 
         em = discord.Embed(title=title, description=text)
         return em
-
 
     @classmethod
     def give_point(cls, name: str, point: int) -> str:
@@ -148,3 +152,46 @@ class PointEngine:
         if tmp_sleepList:
             cls.sleep_list = {user[0]: user[1] for user in tmp_sleepList}
             log.debug("bot init sleepList: %s", cls.sleep_list)
+
+    @classmethod
+    def random_box(cls, user, betting):
+
+        # 처음 받음
+        if user not in cls.box_list:
+            # 새로 추가
+            cls.box_list[user] = datetime.now()
+            # 랜덤 박스 열기
+            em = cls.open_random_box(user, betting)
+            return em
+
+        remains_time = datetime.now() - cls.box_list[user]
+        # 이미 받음
+        if remains_time < random_box_time:
+            title = "랜덤 박스를 열 수 없습니다."
+            text = f'이미 받았잖아!!!\n' \
+                   f'남은 시간: {random_box_time - remains_time}'
+            em = discord.Embed(title=title, description=text)
+            return em
+        else:
+            # 처음은 아니지만 갱신
+            cls.box_list[user] = datetime.now()
+            # 랜덤 박스 열기
+            em = cls.open_random_box(user, betting)
+            return em
+
+    @classmethod
+    def open_random_box(cls, user, betting) -> Embed:
+        # 포인트 계산
+        rand_point = random.randrange(random_min_point, random_max_point)
+        get_point = rand_point + rand_point * (betting/random_max_point)
+        # 포인트 입력
+        reason = f"일일 랜덤 박스로 포인트 {get_point} 획득"
+        PointDB.earn_point_user(user, get_point, reason)
+
+        # 메세지 작성
+        now_pt = PointDB.get_point(user)
+        title = "랜덤 박스를 열었습니다"
+        text = f'{user}가 {get_point}pt 획득\n' \
+               f'총 {now_pt}pt 보유중'
+        em = discord.Embed(title=title, description=text)
+        return em
