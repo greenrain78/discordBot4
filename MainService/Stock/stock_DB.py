@@ -118,8 +118,8 @@ class StockDB(object):
         return result
 
     @staticmethod
-    def select_stock_code_list():
-        sql = f'SELECT DISTINCT code from {tableName_history} ' \
+    def select_stock_list():
+        sql = f'SELECT DISTINCT stock_name from {tableName_history} ' \
               f'ORDER BY time DESC '    # 최근순으로 정렬
         result = manageDB.getSQL(sql)
         log.debug("select_stock_code_list")

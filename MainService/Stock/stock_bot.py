@@ -27,14 +27,14 @@ class StockBot(commands.Cog):
             await ctx.send('해당 명령어가 없습니다.\n 명령어를 제대로 입력해 주세요')
 
     @stock.command()
-    async def buy(self, ctx, code, quantity):
+    async def buy(self, ctx, company, quantity):
         """
         주식 구입
         """
-        name = ctx.author.name
         try:
+            name = ctx.author.name
             quantity = int(quantity)
-            embed = StockEngine.buy(name, code, quantity)
+            embed = StockEngine.buy(name, company, quantity)
         except ValueError:
             title = "주식 매수 실패"
             text = f"수량을 잘못 입력하셨습니다.\n" \
@@ -53,15 +53,14 @@ class StockBot(commands.Cog):
         await msg.delete()  # 메세지 삭제
 
     @stock.command()
-    async def sell(self, ctx, code, quantity):
+    async def sell(self, ctx, company, quantity):
         """
         주식 판매
         """
-        name = ctx.author.name
-        quantity = int(quantity)
-        embed = StockEngine.sell(name, code, quantity)
         try:
-            print("hello")
+            name = ctx.author.name
+            quantity = int(quantity)
+            embed = StockEngine.sell(name, company, quantity)
 
         except ValueError:
             title = "주식 매매 실패"
@@ -95,12 +94,14 @@ class StockBot(commands.Cog):
         await msg.delete()  # 메세지 삭제
 
     @stock.command()
-    async def search(self, ctx, code):
+    async def search(self, ctx, company, page_range=10):
         """
         주식 검색
+        해당 주식을 검색한다.
+        100영업일 만큼 해당하는 주식 정보를 가져와서 그래프로 보여준다.
         """
-        embed = StockEngine.search(code)
-        msg = await ctx.send(embed=embed)
+        res = StockEngine.search(company, page_range)
+        msg = await ctx.send(embed=res['embed'], file=res['image'])
         await asyncio.sleep(60)
 
         await ctx.message.delete()  # 입력된 명령 제거
@@ -114,6 +115,18 @@ class StockBot(commands.Cog):
         업데이트시 매번 초기화 된다.
         """
         embed = StockEngine.popular()
+        msg = await ctx.send(embed=embed)
+        await asyncio.sleep(60)
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제
+
+    @stock.command()
+    async def random(self, ctx, count=10):
+        """
+        주식 랜덤 리스트
+        """
+        embed = StockEngine.stock_ramdom_list(count)
         msg = await ctx.send(embed=embed)
         await asyncio.sleep(60)
 
