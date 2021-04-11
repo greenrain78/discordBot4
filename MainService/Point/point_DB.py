@@ -113,6 +113,14 @@ class PointDB(object):
         log.debug("get_sleepList")
         return result
 
+    @staticmethod
+    def get_ranking_List() -> List[tuple]:
+        sql = f"select name, point from {tableName_user} " \
+              f"ORDER BY point DESC"
+        result = manageDB.getSQL(sql)
+        log.debug("get_sleepList")
+        return result
+
 
 
 

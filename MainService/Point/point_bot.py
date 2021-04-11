@@ -137,3 +137,16 @@ class PointBot(commands.Cog):
 
         await ctx.message.delete()  # 입력된 명령 제거
         await msg.delete()  # 메세지 삭제
+
+    @commands.command()
+    async def ranking(self, ctx):
+        """
+        포인트 랭킹 확인
+        이미 있었지만 아무도 관심을 주지 않으니...
+        """
+        embed = PointEngine.ranking()
+        msg = await ctx.send(embed=embed)
+        await asyncio.sleep(60)
+
+        await ctx.message.delete()  # 입력된 명령 제거
+        await msg.delete()  # 메세지 삭제

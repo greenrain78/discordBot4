@@ -195,3 +195,15 @@ class PointEngine:
                f'총 {now_pt}pt 보유중'
         em = discord.Embed(title=title, description=text)
         return em
+
+    @classmethod
+    def ranking(cls):
+        title = "포인트 랭킹"
+        ranking_list = PointDB.get_ranking_List()
+        text = f"이미 있었지만 아무도 안보는 것 같아서 따로 만드는 랭킹"
+        em = Embed(title=title, description=text)
+        for user in ranking_list:
+            title1 = f"{user[0]}"
+            text1 = f"{user[1]}pt"
+            em.add_field(name=title1, value=text1, inline=False)
+        return em
