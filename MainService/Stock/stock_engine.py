@@ -190,13 +190,12 @@ class StockEngine:
         text = f"주식코드: {stock_code}\n" \
                f"가격: {now_price}"
         em = Embed(title=title, description=text)
-        footer = '딜래이로 인해 실제와 많이 다를 수 있습니다.'
 
         # 파일 이름 설정
         str_time = str(datetime.now()).replace(' ', '_')
         str_time = str_time.replace('.', '-')
         str_time = str_time.replace(':', '-')
-        file_name = f"{'company'}_{str_time}" + ".png"
+        file_name = f"media/stock_image/{company}_{str_time}" + ".png"
 
         # 그래프 생성
         stock_df = StockCrawlingClient.get_stock_list(stock_code, page_range=page_range)

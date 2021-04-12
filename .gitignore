@@ -14,7 +14,7 @@ logs/error/
 logs/message/
 
 media/music
-media/stock_image
+media/stock_image/
 
 __pycache__/
 /__pycache__
