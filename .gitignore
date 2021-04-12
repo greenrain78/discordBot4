@@ -13,7 +13,8 @@ logs/info/
 logs/error/
 logs/message/
 
-media/
+media/music
+media/stock_image
 
 __pycache__/
 /__pycache__
