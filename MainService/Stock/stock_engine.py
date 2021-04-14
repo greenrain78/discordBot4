@@ -6,6 +6,7 @@ import discord
 from discord.embeds import Embed
 
 from MainService.Point.point_DB import PointDB
+from MainService.Stock.coin_api import CoinCrawlingClient
 from MainService.Stock.stock_DB import StockDB
 from MainService.Stock.stock_crawling import StockCrawlingClient
 from MainService.Stock.stock_graph import StockGraph
@@ -16,6 +17,7 @@ log = getLogger(__name__)
 class StockEngine:
     StockDB.initDB()
     stock_list = StockCrawlingClient.get_all_stock_list()
+    coin_list = CoinCrawlingClient.get_all_stock_list()
 
     @classmethod
     def find_stock_code(cls, company: str) -> Union[bool, str]:
@@ -25,6 +27,16 @@ class StockEngine:
             return False
         else:
             stock_code = stock_code[0].strip()  # 주식 코드 가져오기, 공백 제거
+            return stock_code
+
+    @classmethod
+    def find_coin_code(cls, company: str) -> Union[bool, str]:
+        # 코인 검색
+        coin_code = cls.coin_list[cls.coin_list.company == company].code.values
+        if not coin_code:
+            return False
+        else:
+            stock_code = coin_code[0].strip()  # 주식 코드 가져오기, 공백 제거
             return stock_code
 
     @staticmethod
@@ -56,15 +68,28 @@ class StockEngine:
         """
         # 주식 검색
         stock_code = cls.find_stock_code(company)
+        coin_code = cls.find_coin_code(company)
+        print(company)
+        print(coin_code)
+
         title = f"주식 검색: {company}"
-        if not stock_code:
-            text = f"해당 주식은 없습니다.\n" \
+        if stock_code:
+            main_code = stock_code
+            # 가격 조회
+            price = StockCrawlingClient.get_now_price(main_code)
+            price = int(price.replace(',', ''))  # int 화
+        elif coin_code:
+            main_code = coin_code
+            # 가격 조회
+            price = CoinCrawlingClient.get_now_price(main_code)
+            print(coin_code)
+
+
+        else:
+            text = f"해당 주식 또는 코인은 없습니다.\n" \
                    f"제대로 입력해 주세요"
             em = Embed(title=title, description=text)
             return em
-        # 가격 조회
-        price = StockCrawlingClient.get_now_price(stock_code)
-        price = int(price.replace(',', ''))  # int 화
 
         # 보유 포인트 확인
         user_pt = PointDB.get_point(name)
@@ -72,18 +97,18 @@ class StockEngine:
             pt_str = "{:,}".format(user_pt)
             price_str = "{:,}".format(price)
 
-            title = "주식 매수 실패"
-            text = f"보유 포인트 부족으로 주식 매수를 실패하였습니다.\n" \
-                   f"보유 포인트: {pt_str}, 주식 가격: {price_str}"
+            title = "매수 실패"
+            text = f"보유 포인트 부족으로 매수를 실패하였습니다.\n" \
+                   f"보유 포인트: {pt_str}, 가격: {price_str}"
             em = Embed(title=title, description=text)
             footer = '돈 없으면 저리가'
             em.set_footer(text=footer)
             return em
 
         # DB 업데이트 - 포인트 감소, 주식 추가
-        StockDB.buy_stock(name, company, stock_code, price, quantity)
+        StockDB.buy_stock(name, company, main_code, price, quantity)
         total = price * quantity * -1
-        reason = f"{company} 주식({stock_code})를 {quantity}만큼 매수하였습니다."
+        reason = f"{company} 주식({main_code})를 {quantity}만큼 매수하였습니다."
         PointDB.earn_point_user(name, total, reason)
 
         # 메세지 생성
@@ -241,6 +266,24 @@ class StockEngine:
                     f"코드: {stock.code}\n" \
                     f"가격: {price}\n\n"
         em = Embed(title=title, description=text)
+        footer = '딜래이로 인해 실제와 많이 다를 수 있습니다.'
+
+        em.set_footer(text=footer)
+        return em
+
+    @classmethod
+    def coin_all_list(cls):
+        title = f"코인 리스트 리스트"
+        text = "거래 가능한 코인 리스트"
+        em = Embed(title=title, description=text)
+
+        for coin in cls.coin_list.itertuples():
+            price = CoinCrawlingClient.get_now_price(coin.code)
+            title1 = f"{coin.company}"
+            text1 = f"코인 코드: {coin.code}\n" \
+                    f"현재가: {price}\n"
+            em.add_field(name=title1, value=text1, inline=True)
+
         footer = '딜래이로 인해 실제와 많이 다를 수 있습니다.'
 
         em.set_footer(text=footer)
